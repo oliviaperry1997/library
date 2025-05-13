@@ -36,7 +36,7 @@ function addBookToLibrary(title, author, pages, read) {
 };
 
 function createTable() {
-    var headers = ["Title", "Author", "Pages", "Read?", "ID"];
+    var headers = ["Title", "Author", "Pages", "Read?", "ID", "Delete"];
     var table = document.createElement("table");
     table.setAttribute("id", "bookTable");
 
@@ -47,6 +47,15 @@ function createTable() {
         row.insertCell(2).innerHTML = myLibrary[i].pages;
         row.insertCell(3).innerHTML = myLibrary[i].read;
         row.insertCell(4).innerHTML = myLibrary[i].id;
+
+        const deleteCell = row.insertCell(5);
+        const deleteBtn = document.createElement("button");
+        deleteBtn.innerText = "❌";
+        deleteBtn.setAttribute("data-id", myLibrary[i].id);
+        deleteBtn.addEventListener("click", function () {
+            deleteBookById(this.getAttribute("data-id"));
+        });
+        deleteCell.appendChild(deleteBtn);
     }
 
     var header = table.createTHead();
@@ -56,7 +65,16 @@ function createTable() {
     }
 
     document.body.insertBefore(table, document.body.childNodes[2]);
-}
+};
+
+function deleteBookById(id) {
+    const index = myLibrary.findIndex(book => book.id === id);
+    if (index !== -1) {
+        myLibrary.splice(index, 1);
+        document.querySelector("table").remove();
+        createTable();
+    }
+};
 
 createTable();
 
@@ -106,6 +124,7 @@ function handleNewButtonClick() {
     document.querySelector("#pagesDiv").appendChild(newBookPagesLabel);
 
     const newBookPagesInput = document.createElement("input");
+    newBookPagesInput.setAttribute("type", "number");
     newBookPagesInput.setAttribute("id", "pages");
     newBookPagesInput.setAttribute("name", "pages");
     document.querySelector("#pagesDiv").appendChild(newBookPagesInput);
