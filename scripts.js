@@ -31,12 +31,14 @@ function Book(title, author, pages, read) {
 };
 
 function addBookToLibrary(title, author, pages, read) {
-    new Book(title, author, pages, read);
+    const book = new Book(title, author, pages, read);
+    myLibrary.push(book);
 };
 
 function createTable() {
     var headers = ["Title", "Author", "Pages", "Read?", "ID"];
     var table = document.createElement("table");
+    table.setAttribute("id", "bookTable");
 
     for(i=0; i<myLibrary.length; i++) {
         var row = table.insertRow(i);
@@ -58,60 +60,96 @@ function createTable() {
 
 createTable();
 
-const newBook = document.querySelector("#newBook");
-newBook.addEventListener("click", function() {
+function handleNewButtonClick() {
     const newBookForm = document.createElement("form");
     document.body.appendChild(newBookForm);
+
     const newBookHeader = document.createElement("h2");
     newBookHeader.innerHTML = "New Book";
     document.querySelector("form").appendChild(newBookHeader);
+
     const newBookTitleDiv = document.createElement("div");
     newBookTitleDiv.setAttribute("id", "titleDiv");
     document.querySelector("form").appendChild(newBookTitleDiv);
+
     const newBookTitleLabel = document.createElement("label");
     newBookTitleLabel.innerHTML = "Title";
     newBookTitleLabel.setAttribute("for", "title");
     document.querySelector("#titleDiv").appendChild(newBookTitleLabel);
+
     const newBookTitleInput = document.createElement("input");
     newBookTitleInput.setAttribute("id", "title");
     newBookTitleInput.setAttribute("name", "title");
     document.querySelector("#titleDiv").appendChild(newBookTitleInput);
+
     const newBookAuthorDiv = document.createElement("div");
     newBookAuthorDiv.setAttribute("id", "authorDiv");
     document.querySelector("form").appendChild(newBookAuthorDiv);
+
     const newBookAuthorLabel = document.createElement("label");
     newBookAuthorLabel.innerHTML = "Author";
     newBookAuthorLabel.setAttribute("for", "author");
     document.querySelector("#authorDiv").appendChild(newBookAuthorLabel);
+
     const newBookAuthorInput = document.createElement("input");
     newBookAuthorInput.setAttribute("id", "author");
     newBookAuthorInput.setAttribute("name", "author");
     document.querySelector("#authorDiv").appendChild(newBookAuthorInput);
+
     const newBookPagesDiv = document.createElement("div");
     newBookPagesDiv.setAttribute("id", "pagesDiv");
     document.querySelector("form").appendChild(newBookPagesDiv);
+
     const newBookPagesLabel = document.createElement("label");
     newBookPagesLabel.innerHTML = "Number of Pages";
     newBookPagesLabel.setAttribute("for", "pages");
     document.querySelector("#pagesDiv").appendChild(newBookPagesLabel);
+
     const newBookPagesInput = document.createElement("input");
     newBookPagesInput.setAttribute("id", "pages");
     newBookPagesInput.setAttribute("name", "pages");
     document.querySelector("#pagesDiv").appendChild(newBookPagesInput);
+
     const newBookReadDiv = document.createElement("div");
     newBookReadDiv.setAttribute("id", "readDiv");
     document.querySelector("form").appendChild(newBookReadDiv);
+
     const newBookReadLabel = document.createElement("label");
     newBookReadLabel.innerHTML = "Have you read this book?";
     newBookReadLabel.setAttribute("for", "read");
     document.querySelector("#readDiv").appendChild(newBookReadLabel);
+
     const newBookReadInput = document.createElement("input");
     newBookReadInput.setAttribute("type", "checkbox");
     newBookReadInput.setAttribute("id", "read");
     newBookReadInput.setAttribute("name", "read");
     document.querySelector("#readDiv").appendChild(newBookReadInput);
+
     const newBookSubmitButton = document.createElement("button");
-    newBookSubmitButton.innerHTML = "Submit"
+    newBookSubmitButton.innerHTML = "Add Book"
     newBookSubmitButton.setAttribute("type", "button");
+    newBookSubmitButton.setAttribute("id", "submit")
     document.querySelector("form").appendChild(newBookSubmitButton);
-});
+    document.querySelector("#newBook").remove();
+
+    const submit = document.querySelector("#submit");
+    submit.addEventListener("click", function() {
+        addBookToLibrary(
+            document.querySelector("#title").value,
+            document.querySelector("#author").value,
+            document.querySelector("#pages").value,
+            document.querySelector("#read").checked
+        );
+        document.querySelector("form").remove();
+        document.querySelector("table").remove();
+        const newBook = document.createElement("button")
+        newBook.setAttribute("id", "newBook");
+        newBook.innerHTML = "New Book";
+        createTable();
+        document.body.appendChild(newBook);
+        newBook.addEventListener("click", handleNewButtonClick);
+    });
+};
+
+const newBook = document.querySelector("#newBook");
+newBook.addEventListener("click", handleNewButtonClick);
