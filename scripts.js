@@ -1,26 +1,4 @@
-const myLibrary = [
-    {
-        title: "The Communist Manifesto",
-        author: "Karl Marx",
-        pages: 288,
-        read: true,
-        id: "book1"
-    },
-    {
-        title: "Imperialism, The Highest Stage of Capitalism",
-        author: "Vladimir Lenin",
-        pages: 192,
-        read: true,
-        id: "book2"
-    },
-    {
-        title: "State and Revolution",
-        author: "Vladimir Lenin",
-        pages: 140,
-        read: false,
-        id: "book3"
-    }
-];
+const myLibrary = [];
 
 function Book(title, author, pages, read) {
     this.id = crypto.randomUUID();
@@ -28,6 +6,10 @@ function Book(title, author, pages, read) {
     this.author = author;
     this.pages = pages;
     this.read = read;
+};
+
+Book.prototype.toggleRead = function () {
+    this.read = !this.read;
 };
 
 function addBookToLibrary(title, author, pages, read) {
@@ -41,11 +23,26 @@ function createTable() {
     table.setAttribute("id", "bookTable");
 
     for(i=0; i<myLibrary.length; i++) {
+        const book = myLibrary[i];
         var row = table.insertRow(i);
         row.insertCell(0).innerHTML = myLibrary[i].title;
         row.insertCell(1).innerHTML = myLibrary[i].author;
         row.insertCell(2).innerHTML = myLibrary[i].pages;
-        row.insertCell(3).innerHTML = myLibrary[i].read;
+
+        const readCell = row.insertCell(3);
+        const readBtn = document.createElement("button");
+        readBtn.innerText = book.read ? "Read" : "Unread";
+        readBtn.setAttribute("data-id", book.id);
+        readBtn.addEventListener("click", function () {
+            const bookToToggle = myLibrary.find(b => b.id === this.getAttribute("data-id"));
+            if (bookToToggle) {
+                bookToToggle.toggleRead();
+                document.querySelector("table").remove();
+                createTable();
+            }
+        });
+        readCell.appendChild(readBtn);
+
         row.insertCell(4).innerHTML = myLibrary[i].id;
 
         const deleteCell = row.insertCell(5);
@@ -75,6 +72,10 @@ function deleteBookById(id) {
         createTable();
     }
 };
+
+function toggleReadStatus(id) {
+    
+}
 
 createTable();
 
