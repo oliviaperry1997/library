@@ -81,76 +81,28 @@ createTable();
 
 function handleNewButtonClick() {
     const newBookForm = document.createElement("form");
-    document.body.appendChild(newBookForm);
-
-    const newBookHeader = document.createElement("h2");
-    newBookHeader.innerHTML = "New Book";
-    document.querySelector("form").appendChild(newBookHeader);
-
-    const newBookTitleDiv = document.createElement("div");
-    newBookTitleDiv.setAttribute("id", "titleDiv");
-    document.querySelector("form").appendChild(newBookTitleDiv);
-
-    const newBookTitleLabel = document.createElement("label");
-    newBookTitleLabel.innerHTML = "Title";
-    newBookTitleLabel.setAttribute("for", "title");
-    document.querySelector("#titleDiv").appendChild(newBookTitleLabel);
-
-    const newBookTitleInput = document.createElement("input");
-    newBookTitleInput.setAttribute("id", "title");
-    newBookTitleInput.setAttribute("name", "title");
-    document.querySelector("#titleDiv").appendChild(newBookTitleInput);
-
-    const newBookAuthorDiv = document.createElement("div");
-    newBookAuthorDiv.setAttribute("id", "authorDiv");
-    document.querySelector("form").appendChild(newBookAuthorDiv);
-
-    const newBookAuthorLabel = document.createElement("label");
-    newBookAuthorLabel.innerHTML = "Author";
-    newBookAuthorLabel.setAttribute("for", "author");
-    document.querySelector("#authorDiv").appendChild(newBookAuthorLabel);
-
-    const newBookAuthorInput = document.createElement("input");
-    newBookAuthorInput.setAttribute("id", "author");
-    newBookAuthorInput.setAttribute("name", "author");
-    document.querySelector("#authorDiv").appendChild(newBookAuthorInput);
-
-    const newBookPagesDiv = document.createElement("div");
-    newBookPagesDiv.setAttribute("id", "pagesDiv");
-    document.querySelector("form").appendChild(newBookPagesDiv);
-
-    const newBookPagesLabel = document.createElement("label");
-    newBookPagesLabel.innerHTML = "Number of Pages";
-    newBookPagesLabel.setAttribute("for", "pages");
-    document.querySelector("#pagesDiv").appendChild(newBookPagesLabel);
-
-    const newBookPagesInput = document.createElement("input");
-    newBookPagesInput.setAttribute("type", "number");
-    newBookPagesInput.setAttribute("id", "pages");
-    newBookPagesInput.setAttribute("name", "pages");
-    document.querySelector("#pagesDiv").appendChild(newBookPagesInput);
-
-    const newBookReadDiv = document.createElement("div");
-    newBookReadDiv.setAttribute("id", "readDiv");
-    document.querySelector("form").appendChild(newBookReadDiv);
-
-    const newBookReadLabel = document.createElement("label");
-    newBookReadLabel.innerHTML = "Have you read this book?";
-    newBookReadLabel.setAttribute("for", "read");
-    document.querySelector("#readDiv").appendChild(newBookReadLabel);
-
-    const newBookReadInput = document.createElement("input");
-    newBookReadInput.setAttribute("type", "checkbox");
-    newBookReadInput.setAttribute("id", "read");
-    newBookReadInput.setAttribute("name", "read");
-    document.querySelector("#readDiv").appendChild(newBookReadInput);
-
-    const newBookSubmitButton = document.createElement("button");
-    newBookSubmitButton.innerHTML = "Add Book"
-    newBookSubmitButton.setAttribute("type", "button");
-    newBookSubmitButton.setAttribute("id", "submit")
-    document.querySelector("form").appendChild(newBookSubmitButton);
-    document.querySelector("#newBook").remove();
+    newBookForm.innerHTML = `
+    <h2>New Book</h2>
+    <div id="titleDiv">
+      <label for="title">Title</label>
+      <input id="title" name="title">
+    </div>
+    <div id="authorDiv">
+      <label for="author">Author</label>
+      <input id="author" name="author">
+    </div>
+    <div id="pagesDiv">
+      <label for="pages">Number of Pages</label>
+      <input id="pages" name="pages" type="number">
+    </div>
+    <div id="readDiv">
+      <label for="read">Have you read this book?</label>
+      <input id="read" name="read" type="checkbox">
+    </div>
+    <button type="button" id="submit">Add Book</button>
+  `;
+  document.body.appendChild(newBookForm);
+  document.querySelector("#newBook").remove();
 
     const submit = document.querySelector("#submit");
     submit.addEventListener("click", function() {
